@@ -6,4 +6,7 @@ This Python program was developed to make casual Warhammer 40,000 a little easie
 I recommend using this only when the number of attacks to be rolled exceeds the number of dice that can reasonably fit in your hand. My limit is about 35.
 
 ## How it Works
-Just run python3 <number_of_dice> and press enter. Output is formatted for 40k specifically, so it mainly specified how many dice reached or exceeded a given number. For example, the `5+ -- 10` means that 10 dice rolled either a 5 or a 6.
+Just run python3 <number_of_dice> and press enter. Output is formatted for 40k specifically, so it mainly specified how many dice reached or exceeded a given number. For example, the `5+ -- 10` means that 10 dice rolled "5-ups," meaning either a 5 or a 6.
+
+## Future Plans
+I'm going to implement an interactive mode, so you can just enter the number of dice to be rolled, rather than running python3 every time you want to use this utility.
