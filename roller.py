@@ -1,5 +1,5 @@
 import random   # Used for dice rolls
-# import sys
+import sys
 """
  Returns a random number between 0 and 5, inclusive. It's not 1 to 6 because I
  only care about how many of each number are rolled. So these just generate the
@@ -56,4 +56,8 @@ def main_loop():
 
 
 if __name__ == '__main__':
-    main_loop()
+    if len(sys.argv) == 2:
+        d6rolls = int(sys.argv[1])
+        display_rolls(roll_dice(d6rolls), d6rolls)
+    else:
+        main_loop()
