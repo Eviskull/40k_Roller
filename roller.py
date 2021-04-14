@@ -28,7 +28,7 @@ def display_rolls(roll_list, num_dice):
     #Refactored this to one line and added functionality, now shows
     #{D6 Side} s|+ -- {rolls}/{uprolls} = {% of total rolls to 2 decimal places}
     for entry in range(0, len(roll_list)):
-        print(f"{entry+1}s|+ -- {roll_list[entry]}|{sum(roll_list[0:entry+1])} = {(roll_list[entry]/num_dice)*100:2.2f}%")
+        print(f"{entry+1}s|+ -- {roll_list[entry]}|{sum(roll_list[entry:])} = {(roll_list[entry]/num_dice)*100:2.2f}%")
         
 def get_rollnumber():
     #Break up inputs for debugging
