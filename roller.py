@@ -1,11 +1,14 @@
 import random   # Used for dice rolls
-import sys      # Used for parsing command line arguments
-
-# Returns a random number between 0 and 5, inclusive. It's not 1 to 6 because I
-# only care about how many of each number are rolled. So these just generate the
-# indices of a list, rather than the actual dice value
-# Added this function for readability. Plus, typing roll_d6 is just easier than
-# random.randint
+# import sys
+"""
+ Returns a random number between 0 and 5, inclusive. It's not 1 to 6 because I
+ only care about how many of each number are rolled. So these just generate the
+ indices of a list, rather than the actual dice value
+ Added this function for readability. Plus, typing roll_d6 is just easier than
+ random.randint
+ 
+ Refactored after finding it on github and needing to read some code I didn't write to make sense of it.
+"""
 def roll_d6():
     return random.randint(0,5)
 
@@ -19,26 +22,36 @@ def roll_dice(num):
     for i in range(num):
         rolls[roll_d6()] += 1
     return rolls
+    
+    
+def display_rolls(roll_list, num_dice):
+    print(roll_list,"\n")
+    for entry in range(0, len(roll_list)):
+        print(f"{entry+1}s|+ -- {roll_list[entry]}|{sum(roll_list[0:entry+1])} = {(roll_list[entry]/num_dice)*100:2.2f}%")
+        
+def get_rollnumber():
+    return int(input('Enter number of dice to throw?'))
 
-# It was late and I was tired when I wrote this, so I hard-coded it all instead
-# of doing a nifty for loop or something.
-def display_rolls(roll_list):
-    print("6+ -- ", roll_list[5])
-    print("5+ -- ", roll_list[5] + roll_list[4])
-    print("4+ -- ", roll_list[5] + roll_list[4] + roll_list[3])
-    print("3+ -- ", roll_list[5] + roll_list[4] + roll_list[3] + roll_list[2])
-    print("2+ -- ", roll_list[5] + roll_list[4] + roll_list[3] + roll_list[2] + roll_list[1])
-    print("1+ -- ", roll_list[5] + roll_list[4] + roll_list[3] + roll_list[2] + roll_list[1] + roll_list[0])
 
-if __name__ == "__main__":
+def main_loop():
+    while True:
+        print('\nHello and welcome to the rolling tool\nEnter 1 to roll\nEnter Q to exit\n')
+        user_choice = input('Enter your selection: ')
+        if user_choice == '1':
+            print(user_choice, '1')
+            try:
+                d6rolls = get_rollnumber()
+                display_rolls(roll_dice(d6rolls), d6rolls)
+            except Exception as e:
+                print(str(e))
+        elif user_choice.upper() == 'Q':
+            print('Quitting program')
+            break
+        else:
+            print(f'No idea what happened but {user_choice} was what was picked\nso I\'m quitting to be safe.')
+            break
+        
 
-    # Check for command line args
-    if len(sys.argv) != 2:
-        print("Invalid syntax, please enter:\n'roller.py <number of dice to roll>'")
-        sys.exit()
 
-    # Grab the number of dice from the provided arg
-    num_dice = int(sys.argv[1])
-
-    # Roll dice then print the results
-    display_rolls(roll_dice(num_dice))
+if __name__ == '__main__':
+    main_loop()
