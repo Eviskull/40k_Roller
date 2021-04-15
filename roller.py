@@ -36,7 +36,6 @@ def get_rollnumber():
 
 
 def main_loop():
- """Main loop for menu"""
     while True:
         print('\nHello and welcome to the rolling tool\nEnter 1 to roll\nEnter Q to exit\n')
         user_choice = input('Enter your selection: ')
