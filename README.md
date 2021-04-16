@@ -15,3 +15,4 @@ Also, using a better pseudorandom function might be a good idea. Python's random
 ## EVISKULL UPDATE
 
 New implementation pretty much complete, original code found https://github.com/PearsHaveLand/40k_Roller
+Requires Python3.6 or later
