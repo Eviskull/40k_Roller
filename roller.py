@@ -40,7 +40,6 @@ def main_loop():
         print('\nHello and welcome to the rolling tool\nEnter 1 to roll\nEnter Q to exit\n')
         user_choice = input('Enter your selection: ')
         if user_choice == '1':
-            print(user_choice, '1')
             try:
                 d6rolls = get_rollnumber()
                 display_rolls(roll_dice(d6rolls), d6rolls)
