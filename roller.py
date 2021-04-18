@@ -1,74 +1,63 @@
 import random   # Used for dice rolls
-import sys # parse CL arguments
+import sys # For running with arguments
 """
-Updated from the original version at https://github.com/PearsHaveLand/40k_Roller
-Now includes ability to roll ? sided dice a silly number of times
-
-Still to give the random generator better randomness
+Returns a random number between 0 and 5, inclusive. It's not 1 to 6 because I
+only care about how many of each number are rolled. So these just generate the
+indices of a list, rather than the actual dice value
+Added this function for readability. Plus, typing roll_d6 is just easier than
+random.randint
+ 
+Refactored after finding it on github and needing to read some code I didn't write to make sense of it.
+Requires Python3.6 or later as it uses f"string" formatting
 """
-def roll_d6(sides=5):
-    """Original writer implemented this for readability, I like it.
-"""
-    return random.randint(0,sides)
+def roll_d6():
+    return random.randint(0,5)
 
-def get_dinput(ret_type=1):
-    data = {1:'number', 2:'sides'}
-    return int(input(f"Enter {data[ret_type]} of dice: "))
-
-def roll_dice(num, dsides=5):
+def roll_dice(num):
     """ Each index holds the number of dice with each value.
-     E.g. 0 -> 1s, 1 -> 2s, etc.
-"""
-    rolls = [0 for x in range(0, dsides+1)]
+     E.g. 0 -> 1s, 1 -> 2s, etc."""
+    rolls = [0, 0, 0, 0, 0, 0]
+
+    # Rolls the specified number of dice, adding 1 to a random index each time
     for i in range(num):
-        rolls[roll_d6(sides=dsides)] += 1
+        rolls[roll_d6()] += 1
     return rolls
-        
+    
+    
 def display_rolls(roll_list, num_dice):
     """Refactored this to one line and added functionality, now shows
-    {D6 Side} s|+ -- {rolls}/{uprolls} = {% of total rolls to 2 decimal places}
-"""
-    print("-------RESULTS-------")
+    {D6 Side} s|+ -- {rolls}/{uprolls} = {% of total rolls to 2 decimal places}"""
     for entry in range(0, len(roll_list)):
-        if roll_list[entry] == 0:
-            pass # This ignores unrolled numbers to keep display clear
-        else:
-            print(f"{entry+1}s|+ -- {roll_list[entry]}|{sum(roll_list[entry:])} = {(roll_list[entry]/num_dice)*100:2.2f}%")
-            
-def roll_work(faces=5):
-    """Part of tidying up menu_loop()
-"""
-    try:
-        dxrolls = get_dinput(1)
-        roll_dx = roll_dice(dxrolls, faces)
-        display_rolls(roll_dx, dxrolls)
-    except Exception as e:
-        print(str(e))
+        print(f"{entry+1}s|+ -- {roll_list[entry]}|{sum(roll_list[entry:])} = {(roll_list[entry]/num_dice)*100:2.2f}%")
+        
+def get_rollnumber():
+    """Break up inputs for debugging"""
+    return int(input('Enter number of dice to throw?'))
 
-def menu_loop():
+
+def main_loop():
     while True:
-        print('\n---Rolling Tool---\nEnter 1 to roll D6\nEnter 2 to roll D?\nEnter Q to exit\n')
+        print('\nHello and welcome to the rolling tool\nEnter 1 to roll\nEnter Q to exit\n')
         user_choice = input('Enter your selection: ')
         if user_choice == '1':
-            roll_work()
-        elif user_choice == '2':
-            roll_work(get_dinput(2))
+            try:
+                d6rolls = get_rollnumber()
+                display_rolls(roll_dice(d6rolls), d6rolls)
+            except Exception as e:
+                print(str(e))
         elif user_choice.upper() == 'Q':
             print('Quitting program')
             break
         else:
-            print(f'No idea what happened but {user_choice} was what was picked\nso I\'m going to the menu.')
-            pass
+            print(f'No idea what happened but {user_choice} was what was picked\nso I\'m quitting to be safe.')
+            break
         
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         d6rolls = int(sys.argv[1])
         display_rolls(roll_dice(d6rolls), d6rolls)
-    elif len(sys.argv) == 3:
-        d6rolls = int(sys.argv[1])
-        dfaces = int(sys.argv[2])-1
-        display_rolls(roll_dice(d6rolls, dfaces), d6rolls)
     else:
-        menu_loop()
+        main_loop()
 
