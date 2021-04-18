@@ -61,11 +61,14 @@ def menu_loop():
             pass
         
 
-
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         d6rolls = int(sys.argv[1])
         display_rolls(roll_dice(d6rolls), d6rolls)
+    elif len(sys.argv) == 3:
+        d6rolls = int(sys.argv[1])
+        dfaces = int(sys.argv[2])-1
+        display_rolls(roll_dice(d6rolls, dfaces), d6rolls)
     else:
         menu_loop()
 
