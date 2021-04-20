@@ -5,6 +5,7 @@ Updated from the original version at https://github.com/PearsHaveLand/40k_Roller
 Now includes ability to roll ? sided dice a silly number of times
 
 Still to give the random generator better randomness
+Less hacky cl arg parser implemented
 """
 def roll_d6(sides=5):
     """Original writer implemented this for readability, I like it.
@@ -35,11 +36,10 @@ def display_rolls(roll_list, num_dice):
         else:
             print(f"{entry+1}s|+ -- {roll_list[entry]}|{sum(roll_list[entry:])} = {(roll_list[entry]/num_dice)*100:2.2f}%")
             
-def roll_work(faces=5):
+def roll_work(dxrolls, faces=5):
     """Part of tidying up menu_loop()
 """
     try:
-        dxrolls = get_dinput(1)
         roll_dx = roll_dice(dxrolls, faces)
         display_rolls(roll_dx, dxrolls)
     except Exception as e:
@@ -50,9 +50,9 @@ def menu_loop():
         print('\n---Rolling Tool---\nEnter 1 to roll D6\nEnter 2 to roll D?\nEnter Q to exit\n')
         user_choice = input('Enter your selection: ')
         if user_choice == '1':
-            roll_work()
+            roll_work(get_dinput(1))
         elif user_choice == '2':
-            roll_work(get_dinput(2))
+            roll_work(get_dinput(1), get_dinput(2)-1)
         elif user_choice.upper() == 'Q':
             print('Quitting program')
             break
@@ -63,12 +63,8 @@ def menu_loop():
 
 if __name__ == '__main__':
     if len(sys.argv) == 2:
-        d6rolls = int(sys.argv[1])
-        display_rolls(roll_dice(d6rolls), d6rolls)
+        roll_work(int(sys.argv[1]))
     elif len(sys.argv) == 3:
-        d6rolls = int(sys.argv[1])
-        dfaces = int(sys.argv[2])-1
-        display_rolls(roll_dice(d6rolls, dfaces), d6rolls)
+        roll_work(int(sys.argv[1]), int(sys.argv[2])-1)
     else:
         menu_loop()
-
