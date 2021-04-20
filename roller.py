@@ -5,7 +5,6 @@ Updated from the original version at https://github.com/PearsHaveLand/40k_Roller
 Now includes ability to roll ? sided dice a silly number of times
 
 Still to give the random generator better randomness
-Less hacky cl arg parser implemented
 """
 def roll_d6(sides=5):
     """Original writer implemented this for readability, I like it.
@@ -13,8 +12,14 @@ def roll_d6(sides=5):
     return random.randint(0,sides)
 
 def get_dinput(ret_type=1):
+    """Handles inputs and adjusts return for list index.
+"""
     data = {1:'number', 2:'sides'}
-    return int(input(f"Enter {data[ret_type]} of dice: "))
+    choice = int(input(f"Enter {data[ret_type]} of dice: "))
+    if ret_type == 1:
+        return choice
+    elif ret_type ==2:
+        return choice-1
 
 def roll_dice(num, dsides=5):
     """ Each index holds the number of dice with each value.
@@ -52,7 +57,7 @@ def menu_loop():
         if user_choice == '1':
             roll_work(get_dinput(1))
         elif user_choice == '2':
-            roll_work(get_dinput(1), get_dinput(2)-1)
+            roll_work(get_dinput(1), get_dinput(2))
         elif user_choice.upper() == 'Q':
             print('Quitting program')
             break
